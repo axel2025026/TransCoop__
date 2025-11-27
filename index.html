@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransCoope - Transcripción Musical con IA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Pantalla de creación de usuario -->
+    <div id="user-creation-screen" class="screen">
+        <div class="login-container">
+            <div class="animated-background">
+                <div class="music-note note-1">♪</div>
+                <div class="music-note note-2">♫</div>
+                <div class="music-note note-3">♩</div>
+                <div class="music-note note-4">♪</div>
+                <div class="music-note note-5">♫</div>
+            </div>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h1>TransCoope</h1>
+                <p>Transcripción musical con inteligencia artificial</p>
+            </div>
+            <div class="user-creation-form">
+                <h2>Crear Usuario</h2>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="user-name-input" placeholder="Nombre de usuario" maxlength="20">
+                </div>
+                <button id="create-user-btn" class="btn-primary">
+                    <i class="fas fa-play"></i>
+                    Comenzar
+                </button>
+                <p class="note">No necesitas contraseña. Tu progreso se guardará en este dispositivo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de selección de géneros -->
+    <div id="genre-selection-screen" class="screen hidden">
+        <div class="genre-container">
+            <div class="genre-header">
+                <div class="back-button" id="back-to-user">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <h2>Selecciona tus géneros musicales favoritos</h2>
+                <p>Esto nos ayudará a personalizar tu experiencia</p>
+            </div>
+            <div class="genre-grid">
+                <div class="genre-option" data-genre="rock">
+                    <i class="fas fa-guitar"></i>
+                    <span>Rock</span>
+                </div>
+                <div class="genre-option" data-genre="pop">
+                    <i class="fas fa-microphone-alt"></i>
+                    <span>Pop</span>
+                </div>
+                <div class="genre-option" data-genre="electronica">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Electrónica</span>
+                </div>
+                <div class="genre-option" data-genre="clasica">
+                    <i class="fas fa-violin"></i>
+                    <span>Clásica</span>
+                </div>
+                <div class="genre-option" data-genre="metal">
+                    <i class="fas fa-drum"></i>
+                    <span>Metal</span>
+                </div>
+                <div class="genre-option" data-genre="salsa">
+                    <i class="fas fa-music"></i>
+                    <span>Salsa</span>
+                </div>
+                <div class="genre-option" data-genre="jazz">
+                    <i class="fas fa-saxophone"></i>
+                    <span>Jazz</span>
+                </div>
+                <div class="genre-option" data-genre="hiphop">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Hip Hop</span>
+                </div>
+                <div class="genre-option" data-genre="reggaeton">
+                    <i class="fas fa-compact-disc"></i>
+                    <span>Reggaeton</span>
+                </div>
+                <div class="genre-option" data-genre="folk">
+                    <i class="fas fa-guitar"></i>
+                    <span>Folk</span>
+                </div>
+                <div class="genre-option" data-genre="blues">
+                    <i class="fas fa-guitar-electric"></i>
+                    <span>Blues</span>
+                </div>
+                <div class="genre-option" data-genre="country">
+                    <i class="fas fa-hat-cowboy"></i>
+                    <span>Country</span>
+                </div>
+            </div>
+            <div class="genre-footer">
+                <button id="save-genres" class="btn-primary">
+                    <i class="fas fa-check"></i>
+                    Continuar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla principal de la aplicación -->
+    <div id="main-app-screen" class="screen hidden">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <h1>TransCoope</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-section="transcription">
+                            <i class="fas fa-wave-square"></i>
+                            <span>Transcribir</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-section="community">
+                            <i class="fas fa-users"></i>
+                            <span>Comunidad</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-section="projects">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Proyectos</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-section="trending">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Tendencias</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-section="recommendations">
+                            <i class="fas fa-star"></i>
+                            <span>Recomendaciones</span>
+                        </a></li>
+                    </ul>
+                </nav>
+                <div class="user-info">
+                    <div class="user-avatar-placeholder"></div>
+                    <span id="user-name"></span>
+                    <button id="logout-btn" class="btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cambiar usuario
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Sección de Transcripción -->
+            <section id="transcription-section" class="section active">
+                <div class="container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-wave-square"></i> Transcribir Música</h2>
+                        <p>Convierte cualquier audio en partituras profesionales con IA</p>
+                    </div>
+                    
+                    <div class="upload-card">
+                        <div class="upload-options">
+                            <div class="upload-option">
+                                <div class="upload-icon">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <h3>Enlace de música</h3>
+                                <p>Pega un enlace de YouTube, Spotify, etc.</p>
+                                <div class="input-with-button">
+                                    <input type="text" id="music-link" placeholder="https://www.youtube.com/watch?v=...">
+                                    <button id="process-link" class="btn-primary">
+                                        <i class="fas fa-magic"></i>
+                                        Procesar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="upload-option">
+                                <div class="upload-icon">
+                                    <i class="fas fa-file-audio"></i>
+                                </div>
+                                <h3>Subir archivo de audio</h3>
+                                <p>Sube un archivo desde tu dispositivo</p>
+                                <div class="file-upload">
+                                    <input type="file" id="audio-file" accept="audio/*" hidden>
+                                    <label for="audio-file" class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Seleccionar archivo</span>
+                                    </label>
+                                    <button id="process-file" class="btn-primary">
+                                        <i class="fas fa-magic"></i>
+                                        Procesar
+                                    </button>
+                                </div>
+                                <div id="file-name" class="file-name"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="processing-status" class="processing-card hidden">
+                        <div class="processing-content">
+                            <div class="loading-spinner"></div>
+                            <h3>Analizando audio con IA</h3>
+                            <p>Estamos procesando tu archivo musical...</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="sheet-music-container" class="sheet-music-card hidden">
+                        <div class="card-header">
+                            <h3><i class="fas fa-music"></i> Partituras generadas</h3>
+                            <button id="download-pdf" class="btn-primary">
+                                <i class="fas fa-download"></i>
+                                Descargar PDF
+                            </button>
+                        </div>
+                        <div id="instrument-tabs" class="tabs"></div>
+                        <div id="sheet-music-display" class="sheet-music-preview">
+                            <div class="placeholder-sheet">
+                                <div class="staff">
+                                    <div class="staff-line"></div>
+                                    <div class="staff-line"></div>
+                                    <div class="staff-line"></div>
+                                    <div class="staff-line"></div>
+                                    <div class="staff-line"></div>
+                                    <div class="notes-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Comunidad -->
+            <section id="community-section" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-users"></i> Comunidad Musical</h2>
+                        <p>Comparte, aprende y conecta con otros músicos</p>
+                    </div>
+                    
+                    <div class="forum-container">
+                        <div class="new-post-card">
+                            <div class="post-header">
+                                <div class="user-avatar-placeholder small"></div>
+                                <div class="user-info">
+                                    <div class="user-name" id="current-user-name"></div>
+                                    <div class="post-privacy">Público</div>
+                                </div>
+                            </div>
+                            <textarea id="post-content" placeholder="¿Qué tienes en mente? Comparte tus ideas musicales..."></textarea>
+                            <div class="post-actions">
+                                <div class="char-counter"><span id="char-count">0</span>/500</div>
+                                <button id="submit-post" class="btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Publicar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="posts-feed">
+                            <div class="feed-header">
+                                <h3>Publicaciones recientes</h3>
+                                <div class="filter-options">
+                                    <button class="filter-btn active">Todos</button>
+                                    <button class="filter-btn">Populares</button>
+                                    <button class="filter-btn">Siguiendo</button>
+                                </div>
+                            </div>
+                            <div id="posts-container" class="posts-container">
+                                <!-- Los posts se cargarán aquí dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Proyectos -->
+            <section id="projects-section" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-project-diagram"></i> Proyectos Musicales</h2>
+                        <p>Muestra tu trabajo y descubre nuevas creaciones</p>
+                    </div>
+                    
+                    <div class="project-upload-card">
+                        <h3><i class="fas fa-plus-circle"></i> Subir nuevo proyecto</h3>
+                        <div class="upload-form">
+                            <div class="form-group">
+                                <label for="project-title">Título del proyecto</label>
+                                <input type="text" id="project-title" placeholder="Ej: Mi primera composición">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-description">Descripción</label>
+                                <textarea id="project-description" placeholder="Describe tu proyecto musical..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-audio">Archivo de audio</label>
+                                <div class="file-upload-area" id="audio-upload-area">
+                                    <i class="fas fa-file-audio"></i>
+                                    <p>Arrastra tu archivo de audio aquí o haz clic para seleccionar</p>
+                                    <input type="file" id="project-audio" accept="audio/*" hidden>
+                                    <button class="btn-secondary">Seleccionar archivo</button>
+                                </div>
+                            </div>
+                            <button id="submit-project" class="btn-primary">
+                                <i class="fas fa-upload"></i>
+                                Publicar proyecto
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="projects-grid-container">
+                        <div class="grid-header">
+                            <h3>Proyectos de la comunidad</h3>
+                            <div class="view-options">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="projects-container" class="projects-grid">
+                            <!-- Los proyectos se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Tendencias -->
+            <section id="trending-section" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Tendencias Musicales</h2>
+                        <p>Descubre lo que está sonando en la comunidad</p>
+                    </div>
+                    
+                    <div class="trending-container">
+                        <div class="trending-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-fire"></i> Músicas más buscadas</h3>
+                                <span class="update-time">Actualizado hace 5 min</span>
+                            </div>
+                            <div id="trending-list" class="trending-list">
+                                <!-- Las tendencias se cargarán aquí dinámicamente -->
+                            </div>
+                        </div>
+                        
+                        <div class="ratings-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-star"></i> Mejor valoradas</h3>
+                                <span class="update-time">Este mes</span>
+                            </div>
+                            <div id="ratings-list" class="ratings-list">
+                                <!-- Las valoraciones se cargarán aquí dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="total-users">1,247</div>
+                                <div class="stat-label">Usuarios activos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="total-transcriptions">8,956</div>
+                                <div class="stat-label">Transcripciones</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="total-projects">3,421</div>
+                                <div class="stat-label">Proyectos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="total-posts">12,847</div>
+                                <div class="stat-label">Publicaciones</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Recomendaciones -->
+            <section id="recommendations-section" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Recomendaciones para ti</h2>
+                        <p>Contenido personalizado según tus gustos musicales</p>
+                    </div>
+                    
+                    <div class="recommendations-header">
+                        <div class="user-genres">
+                            <h4>Tus géneros favoritos:</h4>
+                            <div id="user-genres-tags" class="genre-tags">
+                                <!-- Los géneros del usuario se mostrarán aquí -->
+                            </div>
+                        </div>
+                        <button id="refresh-recommendations" class="btn-secondary">
+                            <i class="fas fa-sync-alt"></i>
+                            Actualizar
+                        </button>
+                    </div>
+                    
+                    <div class="recommendations-tabs">
+                        <button class="rec-tab active" data-type="songs">Canciones</button>
+                        <button class="rec-tab" data-type="projects">Proyectos</button>
+                        <button class="rec-tab" data-type="community">Comunidad</button>
+                    </div>
+                    
+                    <div id="recommendations-container" class="recommendations-grid">
+                        <!-- Las recomendaciones se cargarán aquí dinámicamente -->
+                    </div>
+                    
+                    <div class="discovery-section">
+                        <h3><i class="fas fa-compass"></i> Descubre nuevos géneros</h3>
+                        <div class="discovery-grid">
+                            <div class="discovery-card" data-genre="jazz">
+                                <div class="discovery-image jazz-bg"></div>
+                                <div class="discovery-content">
+                                    <h4>Jazz</h4>
+                                    <p>Improvisación y armonías complejas</p>
+                                    <button class="btn-outline">Explorar</button>
+                                </div>
+                            </div>
+                            <div class="discovery-card" data-genre="classical">
+                                <div class="discovery-image classical-bg"></div>
+                                <div class="discovery-content">
+                                    <h4>Clásica</h4>
+                                    <p>Música atemporal y elegante</p>
+                                    <button class="btn-outline">Explorar</button>
+                                </div>
+                            </div>
+                            <div class="discovery-card" data-genre="electronic">
+                                <div class="discovery-image electronic-bg"></div>
+                                <div class="discovery-content">
+                                    <h4>Electrónica</h4>
+                                    <p>Ritmos modernos y sintetizadores</p>
+                                    <button class="btn-outline">Explorar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
